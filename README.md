@@ -12,4 +12,4 @@ This project is a contact management application developed during a Friday sessi
 This project was guided by **[Mr. Nizar Ali](https://github.com/NizarETH)**, our instructor at **CMC School in Rabat**, as part of the **second-year Mobile Development program**.
 
 ## Screenshot
-![Contact Application Screenshot](https://raw.githubusercontent.com/0yaser0/ContactApp_V2/master/screenshots/contact_list.jpg)
+![Contact Application Screenshot](https://raw.githubusercontent.com/0yaser0/ContactApp_V2/master/Purple%20App%20Phone%20Mockup%20Sales%20Marketing%20Presentation.png)
