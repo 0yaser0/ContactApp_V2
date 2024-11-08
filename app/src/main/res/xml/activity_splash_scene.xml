@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:autoTransition="animateToEnd"
+        motion:duration="3000">
+        <KeyFrameSet>
+            <KeyAttribute
+                motion:motionTarget="@+id/LogoContactApp"
+                motion:framePosition="58"
+                android:alpha="0.0" />
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/logo"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:transitionEasing="cubic(0.03,0.08,0.8,0.8)" />
+        <Constraint
+            android:id="@+id/LogoContactApp"
+            android:layout_width="209dp"
+            android:layout_height="98dp"
+            android:alpha="0.0"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintVertical_bias="0.499"
+            motion:transitionEasing="linear" />
+        <Constraint
+            android:id="@+id/made_by"
+            android:layout_width="128dp"
+            android:layout_height="65dp"
+            android:alpha="0.0"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintVertical_bias="0.995"
+            motion:layout_constraintHorizontal_bias="0.498" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/made_by"
+            android:layout_width="128dp"
+            android:layout_height="65dp"
+            android:alpha="1.0"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintVertical_bias="0.995"
+            motion:layout_constraintHorizontal_bias="0.498" />
+        <Constraint
+            android:id="@+id/LogoContactApp"
+            android:layout_width="250dp"
+            android:layout_height="104dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintVertical_bias="0.596" />
+        <Constraint
+            android:id="@+id/logo"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintVertical_bias="0.5"
+            motion:layout_constraintHorizontal_bias="0.5"
+            android:translationY="-50dp"
+            android:rotationX="0.7"
+            android:rotationY="0.7" />
+    </ConstraintSet>
+</MotionScene>
