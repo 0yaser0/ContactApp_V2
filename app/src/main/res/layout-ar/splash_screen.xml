@@ -46,7 +46,7 @@
         android:alpha="0.0"
         android:fontFamily="@font/more_sugar"
         android:gravity="center"
-        android:text="@string/made_by_yaser"
+        android:text="من قبل ياسر"
         android:textColor="#0F2032"
         android:textSize="12sp"
         android:textStyle="bold"

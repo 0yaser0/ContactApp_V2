@@ -12,6 +12,7 @@ import android.widget.Filterable
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.cmc.contactapp.databinding.ContactItemBinding
+import java.util.Locale
 import kotlin.random.Random
 
 class ContactAdapter(private val context: MainActivity) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>(), Filterable {
@@ -38,7 +39,7 @@ class ContactAdapter(private val context: MainActivity) : RecyclerView.Adapter<C
         if (firstChar != null && firstChar.isLetter()) {
             holder.binding.circleImageView.text = firstChar.toString()
             val drawable = context.getDrawable(R.drawable.circle) as GradientDrawable
-            drawable.setColor(getRandomColor()) // Set random color
+            drawable.setColor(getRandomColor())
             holder.binding.circleImageView.background = drawable
         } else {
             holder.binding.circleImageView.background = context.getDrawable(R.drawable.user)
@@ -53,21 +54,22 @@ class ContactAdapter(private val context: MainActivity) : RecyclerView.Adapter<C
     override fun getItemCount() = filteredContacts.size
 
     fun setContacts(contacts: List<Contact>) {
-        this.contacts = contacts
-        this.filteredContacts = contacts
+        val allContacts = contacts.distinctBy { it.name }
+        this.contacts = allContacts
+        this.filteredContacts = allContacts
         notifyDataSetChanged()
     }
 
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence?): FilterResults {
-                val query = charSequence?.toString()?.toLowerCase() ?: ""
+                val query = charSequence?.toString()?.toLowerCase(Locale.ROOT) ?: ""
                 val filterResults = FilterResults()
                 filterResults.values = if (query.isEmpty()) {
                     contacts
                 } else {
                     contacts.filter {
-                        it.name.toLowerCase().contains(query) ||
+                        it.name.toLowerCase(java.util.Locale.ROOT).contains(query) ||
                                 it.phoneNumber.contains(query)
                     }
                 }
@@ -77,6 +79,7 @@ class ContactAdapter(private val context: MainActivity) : RecyclerView.Adapter<C
             override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults?) {
                 filteredContacts = filterResults?.values as List<Contact>
                 notifyDataSetChanged()
+                context.updateEmptyState(filteredContacts.isEmpty())
             }
         }
     }

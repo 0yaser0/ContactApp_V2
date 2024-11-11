@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/call"
-        android:title="Call"/>
+        android:title="اتصل"/>
     <item
         android:id="@+id/sms"
-        android:title="SMS"/>
+        android:title="رسالة"/>
 </menu>
