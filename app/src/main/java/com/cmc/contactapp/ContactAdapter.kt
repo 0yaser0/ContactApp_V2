@@ -17,7 +17,7 @@ import kotlin.random.Random
 
 class ContactAdapter(private val context: MainActivity) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>(), Filterable {
     private var contacts: List<Contact> = listOf()
-    private var filteredContacts: List<Contact> = listOf()
+    var filteredContacts: List<Contact> = listOf()
 
     init {
         filteredContacts = contacts
