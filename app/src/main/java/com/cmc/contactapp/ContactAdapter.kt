@@ -1,6 +1,5 @@
 package com.cmc.contactapp
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -15,8 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cmc.contactapp.databinding.ContactItemBinding
 import kotlin.random.Random
 
-class ContactAdapter(private val context: Context) :
-    RecyclerView.Adapter<ContactAdapter.ContactViewHolder>(), Filterable {
+class ContactAdapter(private val context: MainActivity) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>(), Filterable {
     private var contacts: List<Contact> = listOf()
     private var filteredContacts: List<Contact> = listOf()
 
@@ -40,7 +38,7 @@ class ContactAdapter(private val context: Context) :
         if (firstChar != null && firstChar.isLetter()) {
             holder.binding.circleImageView.text = firstChar.toString()
             val drawable = context.getDrawable(R.drawable.circle) as GradientDrawable
-            drawable.setColor(getRandomColor())
+            drawable.setColor(getRandomColor()) // Set random color
             holder.binding.circleImageView.background = drawable
         } else {
             holder.binding.circleImageView.background = context.getDrawable(R.drawable.user)
@@ -88,13 +86,7 @@ class ContactAdapter(private val context: Context) :
         popup.inflate(R.menu.menu_item)
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.call -> {
-                    val callIntent = Intent(Intent.ACTION_DIAL).apply {
-                        data = Uri.parse("tel:$phoneNumber")
-                    }
-                    context.startActivity(callIntent)
-                }
-
+                R.id.call -> context.makeCall(phoneNumber)
                 R.id.sms -> {
                     val smsIntent = Intent(Intent.ACTION_SENDTO).apply {
                         data = Uri.parse("smsto:$phoneNumber")

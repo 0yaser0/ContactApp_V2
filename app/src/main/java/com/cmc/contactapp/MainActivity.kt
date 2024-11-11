@@ -15,7 +15,6 @@ import com.cmc.contactapp.databinding.ActivityMainBinding
 import pub.devrel.easypermissions.EasyPermissions
 
 class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
-
     private val PERMISSIONS_REQUEST_CALL_PHONE = 124
     private lateinit var binding: ActivityMainBinding
     private lateinit var contactAdapter: ContactAdapter
@@ -25,9 +24,16 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        enableEdgeToEdge()
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
-        setupUI()
-        initializeRecyclerView()
+        contactAdapter = ContactAdapter(this)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = contactAdapter
 
         if (EasyPermissions.hasPermissions(this, Manifest.permission.READ_CONTACTS)) {
             loadContacts()
@@ -39,21 +45,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
                 Manifest.permission.READ_CONTACTS
             )
         }
-    }
-
-    private fun setupUI() {
-        enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-    }
-
-    private fun initializeRecyclerView() {
-        contactAdapter = ContactAdapter(this)
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = contactAdapter
     }
 
     fun makeCall(phoneNumber: String) {
@@ -74,33 +65,43 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     }
 
     private fun loadContacts() {
-        val contactList = mutableListOf<Contact>()
+        val contactList = ArrayList<Contact>()
+        val contentResolver = contentResolver
         val cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
 
-        cursor?.use {
-            if (it.count > 0) {
-                while (it.moveToNext()) {
-                    val id = it.getString(it.getColumnIndexOrThrow(ContactsContract.Contacts._ID))
-                    val name = it.getString(it.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME))
-                    if (it.getInt(it.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
+        if (cursor != null && cursor.count > 0) {
+            while (cursor.moveToNext()) {
+                val idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID)
+                val nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+                val hasPhoneNumberIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)
+
+                if (idIndex != -1 && nameIndex != -1 && hasPhoneNumberIndex != -1) {
+                    val id = cursor.getString(idIndex)
+                    val name = cursor.getString(nameIndex)
+                    if (cursor.getInt(hasPhoneNumberIndex) > 0) {
                         val pCursor = contentResolver.query(
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                             null,
                             "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID} = ?",
-                            arrayOf(id),
-                            null
+                            arrayOf(id), null
                         )
-                        pCursor?.use { phoneCursor ->
-                            val phoneNumberIndex = phoneCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER)
-                            while (phoneCursor.moveToNext()) {
-                                val phoneNumber = phoneCursor.getString(phoneNumberIndex)
-                                contactList.add(Contact(id.toInt(), name, phoneNumber))
+
+                        if (pCursor != null) {
+                            val phoneNumberIndex = pCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                            if (phoneNumberIndex != -1) {
+                                while (pCursor.moveToNext()) {
+                                    val phoneNumber = pCursor.getString(phoneNumberIndex)
+                                    contactList.add(Contact(id.toInt(), name, phoneNumber))
+                                }
                             }
+                            pCursor.close()
                         }
                     }
                 }
             }
+            cursor.close()
         }
+
         contactAdapter.setContacts(contactList)
     }
 

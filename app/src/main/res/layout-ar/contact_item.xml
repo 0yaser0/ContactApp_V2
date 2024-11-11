@@ -25,7 +25,7 @@
             android:id="@+id/contactName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/name"
+            android:text="name"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
@@ -33,7 +33,7 @@
             android:id="@+id/contactPhoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/phone_number"
+            android:text="phone number"
             android:textSize="14sp"/>
     </LinearLayout>
 
