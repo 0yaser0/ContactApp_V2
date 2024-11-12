@@ -9,7 +9,7 @@ This project is a contact management application developed during a Friday sessi
 - **Intuitive Interface**: Simple and user-friendly design makes it easy to navigate and interact with contacts.
 
 ## Development
-This project was guided by **[Mr. Nizar Ali](https://github.com/NizarETH)**, our instructor at **CMC School in Rabat**, as part of the **second-year Mobile Development program**.
+This project was guided by **[Mr. Nizar](https://github.com/NizarETH)**, our instructor at **CMC School in Rabat**, as part of the **second-year Mobile Development program**.
 
 ## Screenshot
 ![Contact Application Screenshot](https://raw.githubusercontent.com/0yaser0/ContactApp_V2/master/Purple%20App%20Phone%20Mockup%20Sales%20Marketing%20Presentation.png)
